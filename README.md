@@ -40,21 +40,35 @@
 
 ```
 PhoneAudio/
-├── scrcpy/                    # scrcpy 解压目录（含 adb.exe）
+├── 手机音频到电脑.bat          # ★ 双击这个入口
 ├── phone-audio.ps1            # 主脚本：设备发现 + 连接 + 配对 + 音频转发
-├── 手机音频到电脑.bat          # 双击入口（自动选择 pwsh / powershell）
-└── README.md
+├── setup.ps1                  # 环境准备：自动下载并部署 scrcpy
+├── .gitignore                 # 忽略 scrcpy/ 等第三方二进制
+├── LICENSE                    # MIT
+├── README.md
+└── scrcpy/                    # 首次运行自动生成（内含 adb.exe）
 ```
 
 `phone-audio.ps1` 会按以下顺序**自动定位 scrcpy**，无需硬编码路径：
 
 1. 脚本同级目录下的 `scrcpy\`
-2. `E:\PhoneAudio\scrcpy\`
+2. 当前工作目录下的 `scrcpy\`
 3. `%LOCALAPPDATA%\Programs\scrcpy`（winget 安装位置）
+4. `%USERPROFILE%\scrcpy`
 
 ## 🚀 使用
 
-### 首次使用（需要配对一次）
+### 第 1 步：部署（只需一次）
+
+下载本项目后，**直接双击 `手机音频到电脑.bat`**。
+
+脚本会检测到还没部署 scrcpy，**自动帮你下载并解压**到 `scrcpy\` 目录（GitHub 官方源优先，失败会自动回退到国内镜像）。
+
+> 如果自动下载失败（网络受限），脚本会给出提示，你也可以手动部署：
+> 从 [scrcpy releases](https://github.com/Genymobile/scrcpy/releases) 下载 `scrcpy-win64-v4.1.zip`，
+> 解压后把里面的文件全部放到 `scrcpy\` 目录即可。
+
+### 第 2 步：首次配对（只需一次）
 
 1. **开启开发者选项**
    `设置 → 关于手机 → 连续点击「版本号」7 次`
@@ -66,7 +80,7 @@ PhoneAudio/
    进入「无线调试」→ 点击「**使用配对码配对设备**」→ 记下 **6 位数字**
    > ⚠️ 保持弹窗不要关闭，配对码几十秒后失效
 
-4. **运行脚本**，按提示输入配对码
+4. **再次双击启动器**，按提示输入配对码
 
 ### 日常使用
 
